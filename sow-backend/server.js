@@ -5,6 +5,7 @@ import pool from "./config/pgDatabase.js";
 import createUserTable from "./models/userModel.js";
 import createTranslationTable from "./models/translationModel.js";
 import loginRouter from "./api/login.js";
+import translationRouter from "./api/addTranslation.js";
 
 // Initializing the app
 const app = express();
@@ -20,6 +21,7 @@ app.use(express.json());
 
 // API Endpoints
 app.use("/api/login", loginRouter);
+app.use("/api/add-translation", translationRouter);
 
 // Sample route
 app.get("/", (req, res) => {
