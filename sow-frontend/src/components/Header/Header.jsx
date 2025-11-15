@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import GB from "../../assets/GB.png";
 import SE from "../../assets/SE.png";
+import { AppContext } from "../../Context/AppContext";
 import "./Header.jsx.css";
 
 const languageOptions = [
@@ -12,15 +13,18 @@ const languageOptions = [
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState(languageOptions[0]);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const { lang, setLang, t } = useContext(AppContext);
+
+  const selectedLanguage = languageOptions.find((o) => o.code === lang) || languageOptions[0];
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
   const handleLanguageSelect = (option) => {
-    setSelectedLanguage(option);
+    setLang(option.code);
     setIsOpen(false);
   };
 
@@ -43,19 +47,19 @@ const Header = () => {
           
           <ul className={`nav-links ${mobileOpen ? "mobile-open" : ""}`}>
             <li>
-              <Link to="/#">Home</Link>
+              <Link to="/#">{t ? t("menu_home") : "Home"}</Link>
             </li>
             <li>
-              <Link to="/#">Order</Link>
+              <Link to="/#">{t ? t("menu_order") : "Order"}</Link>
             </li>
             <li>
-              <Link to="/#">Our Customers</Link>
+              <Link to="/#">{t ? t("menu_customer") : "Our Customers"}</Link>
             </li>
             <li>
-              <Link to="/#">About Us</Link>
+              <Link to="/#">{t ? t("menu_aboutUs") : "About Us"}</Link>
             </li>
             <li>
-              <Link to="/#">Contact Us</Link>
+              <Link to="/#">{t ? t("menu_contact") : "Contact Us"}</Link>
             </li>
           </ul>
 

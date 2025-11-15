@@ -1,35 +1,37 @@
-import React, {useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import "./Login.jsx.css";
 import 'font-awesome/css/font-awesome.min.css';
+import { AppContext } from "../../Context/AppContext";
 
 
 const Login = () => {
   
   const [showPassword, setShowPassword] = useState(false);
-  
+  const { t } = useContext(AppContext);
+
   return (
     <div className="login-wrapper">
       <div className="login-box">
-        <h1 className="login-title">Log in</h1>
+        <h1 className="login-title">{t("login_title")}</h1>
 
         <div className="login-form-wrapper">
           <div className="login-form">
-            <label htmlFor="email">Enter your email address</label>
+            <label htmlFor="email">{t("email_label")}</label>
             <input
               type="email"
               id="email"
               name="email"
-              placeholder="Email address"
+              placeholder={t("email_placeholder")}
             />
           </div>
 
           <div className="login-form password-wrapper">
-            <label htmlFor="password">Enter your password</label>
+            <label htmlFor="password">{t("login_password_label")}</label>
             <input
               type={showPassword ? "text" : "password"}
               id="password"
               name="password"
-              placeholder="Password"
+              placeholder={t("login_password_placeholder")}
             />
 
             <span className="toggle-password">
@@ -47,16 +49,16 @@ const Login = () => {
         </div>
 
         <div className="login-btn-wrapper">
-          <button className="login-btn">Log in</button>
+          <button className="login-btn">{t("login_button")}</button>
         </div>
 
         <div className="link-container">
           <a href="/#">
-            Register
+            {t("login_register_text")}
           </a>
           
           <a href="/#">
-            Forgotten Password?
+            {t("login_forgotPassword")}
           </a>
         </div>
       </div>
