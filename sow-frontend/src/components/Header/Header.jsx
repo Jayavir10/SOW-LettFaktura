@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import GB from "../../assets/GB.png";
 import SE from "../../assets/SE.png";
+import profile from "../../assets/profile.png"
 import { AppContext } from "../../Context/AppContext";
 import "./Header.jsx.css";
 
@@ -14,10 +15,11 @@ const languageOptions = [
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-
   const { lang, setLang, t } = useContext(AppContext);
+  const [auth, setAuth] = useState(false);
 
-  const selectedLanguage = languageOptions.find((o) => o.code === lang) || languageOptions[0];
+  const selectedLanguage =
+    languageOptions.find((o) => o.code === lang) || languageOptions[0];
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -31,7 +33,11 @@ const Header = () => {
   return (
     <>
       <nav>
-        <img src={logo} alt="Company Logo" className="logo" />
+        {auth ? (
+          <img src={profile} alt="Profile Image" className="logo" />
+        ) : (
+          <img src={logo} alt="Company Logo" className="logo" />
+        )}
 
         <div className="menu-lang-wrapper">
           <button
@@ -44,7 +50,7 @@ const Header = () => {
             <span className={`hb-line ${mobileOpen ? "open" : ""}`}></span>
             <span className={`hb-line ${mobileOpen ? "open" : ""}`}></span>
           </button>
-          
+
           <ul className={`nav-links ${mobileOpen ? "mobile-open" : ""}`}>
             <li>
               <Link to="/#">{t ? t("menu_home") : "Home"}</Link>

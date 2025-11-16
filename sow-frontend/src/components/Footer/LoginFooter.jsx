@@ -16,6 +16,9 @@ const LoginFooter = () => {
             <Link to="/#">Order</Link>
           </li>
           <li>
+            <Link to="/terms">Terms</Link>
+          </li>
+          <li>
             <Link to="/#">Contact Us</Link>
           </li>
         </ul>
