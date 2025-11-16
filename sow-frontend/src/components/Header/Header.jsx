@@ -1,109 +1,13 @@
-import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
-import logo from "../../assets/logo.png";
-import GB from "../../assets/GB.png";
-import SE from "../../assets/SE.png";
-import profile from "../../assets/profile.png"
-import { AppContext } from "../../Context/AppContext";
+import React, { useContext } from "react";
 import "./Header.jsx.css";
-
-const languageOptions = [
-  { code: "en", label: "English", flag: GB },
-  { code: "sv", label: "Svenska", flag: SE },
-];
+import { AppContext } from "../../Context/AppContext";
+import GuestNavbar from "../Navbar/GuestNavbar";
+import AuthNavbar from "../Navbar/AuthNavbar";
 
 const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const { lang, setLang, t } = useContext(AppContext);
-  const [auth, setAuth] = useState(false);
-
-  const selectedLanguage =
-    languageOptions.find((o) => o.code === lang) || languageOptions[0];
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handleLanguageSelect = (option) => {
-    setLang(option.code);
-    setIsOpen(false);
-  };
-
-  return (
-    <>
-      <nav>
-        {auth ? (
-          <img src={profile} alt="Profile Image" className="logo" />
-        ) : (
-          <img src={logo} alt="Company Logo" className="logo" />
-        )}
-
-        <div className="menu-lang-wrapper">
-          <button
-            className="hamburger"
-            aria-label="Toggle menu"
-            onClick={() => setMobileOpen((v) => !v)}
-            type="button"
-          >
-            <span className={`hb-line ${mobileOpen ? "open" : ""}`}></span>
-            <span className={`hb-line ${mobileOpen ? "open" : ""}`}></span>
-            <span className={`hb-line ${mobileOpen ? "open" : ""}`}></span>
-          </button>
-
-          <ul className={`nav-links ${mobileOpen ? "mobile-open" : ""}`}>
-            <li>
-              <Link to="/#">{t ? t("menu_home") : "Home"}</Link>
-            </li>
-            <li>
-              <Link to="/#">{t ? t("menu_order") : "Order"}</Link>
-            </li>
-            <li>
-              <Link to="/#">{t ? t("menu_customer") : "Our Customers"}</Link>
-            </li>
-            <li>
-              <Link to="/#">{t ? t("menu_aboutUs") : "About Us"}</Link>
-            </li>
-            <li>
-              <Link to="/#">{t ? t("menu_contact") : "Contact Us"}</Link>
-            </li>
-          </ul>
-
-          <div className="lang-wrapper">
-            <button className="lang-btn" onClick={toggleDropdown} type="button">
-              <span className="lang-text">{selectedLanguage.label}</span>
-              <img
-                src={selectedLanguage.flag}
-                alt={`${selectedLanguage.code} flag`}
-                className="lang-flag"
-              />
-            </button>
-
-            {isOpen && (
-              <ul className="lang-menu">
-                {languageOptions.map((option) => (
-                  <li
-                    key={option.code}
-                    className={`lang-item ${
-                      option.code === selectedLanguage.code ? "selected" : ""
-                    }`}
-                    onClick={() => handleLanguageSelect(option)}
-                  >
-                    <span>{option.label}</span>
-                    <img
-                      src={option.flag}
-                      alt={`${option.label} flag`}
-                      className="lang-flag-menu"
-                    />
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </div>
-      </nav>
-    </>
-  );
+  const { auth } = useContext(AppContext);
+  
+  return auth ? <AuthNavbar /> : <GuestNavbar />;
 };
 
 export default Header;

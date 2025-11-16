@@ -5,6 +5,7 @@ export const AppContext = createContext();
 
 const AppContextProvider = (props) => {
   const backendURL = import.meta.env.VITE_API_BACKEND_URL;
+  const [auth, setAuth] = useState(localStorage.getItem('auth') ? localStorage.getItem('auth') : false)
   const [lang, setLangState] = useState(
     localStorage.getItem("lang") ? localStorage.getItem("lang") : "en"
   );
@@ -45,6 +46,7 @@ const AppContextProvider = (props) => {
 
   const value = {
     backendURL,
+    auth, setAuth,
     lang,
     setLang,
     translations,

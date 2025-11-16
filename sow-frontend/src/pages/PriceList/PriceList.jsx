@@ -6,4 +6,4 @@ const PriceList = () => {
   )
 }
 
-export default PriceList
+export default PriceList;
