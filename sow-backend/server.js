@@ -18,6 +18,8 @@ await createTranslationTable(pool);
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 
 // API Endpoints
 app.use("/api/login", loginRouter);

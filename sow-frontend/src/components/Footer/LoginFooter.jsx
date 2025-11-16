@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./Footer.jsx.css";
+import "./LoginFooter.jsx.css";
 
-const Footer = () => {
+const LoginFooter = () => {
   return (
     <div className="footer-wrapper">
       <div className="nav-footer">
@@ -30,4 +30,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default LoginFooter;

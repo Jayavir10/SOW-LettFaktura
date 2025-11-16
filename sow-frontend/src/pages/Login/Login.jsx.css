@@ -1,7 +1,14 @@
+.login-footer-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
 .login-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     padding-top: 45px;
     padding-bottom: 20px;
 }
