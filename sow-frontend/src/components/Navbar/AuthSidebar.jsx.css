@@ -1,0 +1,70 @@
+.auth-sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px 30px 5px 20px;
+  box-shadow: 2px 0px 10px #d4d4d4;
+  z-index: 100;
+}
+
+.sidebar-title {
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+hr {
+  border-color: #22d3ee;
+  width: 80%;
+}
+
+.sidebar-links {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-left: -15px;
+}
+
+.sidebar-links li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 15px;
+  color: rgb(32, 32, 32);
+  font-size: 15px;
+}
+
+.active-dot {
+  width: 14px;
+  height: 14px;
+  background-color: #00d12e;
+  border-radius: 50%;
+  margin-left: -29px;
+}
+
+@media (max-width: 1024px) {
+  .auth-sidebar {
+    position: absolute;
+    top: 85px;
+    left: 0;
+    height: 100%;
+    transform: translateX(-100%);
+    width: 200px;
+
+    z-index: 999;
+  }
+
+  .auth-sidebar.show {
+    transform: translateX(0);
+  }
+
+  .auth-sidebar.hide {
+    transform: translateX(-100%);
+  }
+}

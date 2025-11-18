@@ -30,22 +30,22 @@ const GuestNavbar = () => {
 
   return (
     <>
-      <nav>
-        <img src={logo} alt="Company Logo" className="logo" />
+      <nav className="guest-nav">
+        <img src={logo} alt="Company Logo" className="guest-logo" />
 
-        <div className="menu-lang-wrapper">
+        <div className="guest-menu-lang-wrapper">
           <button
-            className="hamburger"
+            className="guest-hamburger"
             aria-label="Toggle menu"
             onClick={() => setMobileOpen((v) => !v)}
             type="button"
           >
-            <span className={`hb-line ${mobileOpen ? "open" : ""}`}></span>
-            <span className={`hb-line ${mobileOpen ? "open" : ""}`}></span>
-            <span className={`hb-line ${mobileOpen ? "open" : ""}`}></span>
+            <span className={`guest-hb-line`}></span>
+            <span className={`guest-hb-line`}></span>
+            <span className={`guest-hb-line`}></span>
           </button>
 
-          <ul className={`nav-links ${mobileOpen ? "mobile-open" : ""}`}>
+          <ul className={`guest-nav-links ${mobileOpen ? "guest-mobile-open" : ""}`}>
             <li>
               <Link to="/#">{t ? t("menu_home") : "Home"}</Link>
             </li>
@@ -63,23 +63,23 @@ const GuestNavbar = () => {
             </li>
           </ul>
 
-          <div className="lang-wrapper">
-            <button className="lang-btn" onClick={toggleDropdown} type="button">
-              <span className="lang-text">{selectedLanguage.label}</span>
+          <div className="guest-lang-wrapper">
+            <button className="guest-lang-btn" onClick={toggleDropdown} type="button">
+              <span className="guest-lang-text">{selectedLanguage.label}</span>
               <img
                 src={selectedLanguage.flag}
                 alt={`${selectedLanguage.code} flag`}
-                className="lang-flag"
+                className="guest-lang-flag"
               />
             </button>
 
             {isOpen && (
-              <ul className="lang-menu">
+              <ul className="guest-lang-menu">
                 {languageOptions.map((option) => (
                   <li
                     key={option.code}
-                    className={`lang-item ${
-                      option.code === selectedLanguage.code ? "selected" : ""
+                    className={`guest-lang-item ${
+                      option.code === selectedLanguage.code ? "guest-selected" : ""
                     }`}
                     onClick={() => handleLanguageSelect(option)}
                   >
@@ -87,7 +87,7 @@ const GuestNavbar = () => {
                     <img
                       src={option.flag}
                       alt={`${option.label} flag`}
-                      className="lang-flag-menu"
+                      className="guest-lang-flag-menu"
                     />
                   </li>
                 ))}

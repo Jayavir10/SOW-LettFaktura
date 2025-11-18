@@ -10,6 +10,8 @@ const AppContextProvider = (props) => {
     localStorage.getItem("lang") ? localStorage.getItem("lang") : "en"
   );
   const [translations, setTranslations] = useState({});
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
 
   const getTranslations = useCallback(
     async (language) => {
@@ -52,6 +54,7 @@ const AppContextProvider = (props) => {
     translations,
     getTranslations,
     t,
+    sidebarOpen, setSidebarOpen
   };
 
   return (
