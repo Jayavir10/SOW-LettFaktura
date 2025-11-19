@@ -13,7 +13,7 @@ const languageOptions = [
 
 const AuthNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-    const { lang, setLang, sidebarOpen, setSidebarOpen } = useContext(AppContext);
+    const { lang, setLang, sidebarOpen, setSidebarOpen, user } = useContext(AppContext);
   
     const selectedLanguage =
       languageOptions.find((o) => o.code === lang) || languageOptions[0];
@@ -33,7 +33,7 @@ const AuthNavbar = () => {
           <div className="auth-profile-wrapper">
             <img src={profile} alt="Profile Image" className="auth-profile-img" />
             <div className="profile-details">
-              <p>Jayavir Basnet</p>
+              <p>{user.name}</p>
               <p>Storfjord AS</p>
             </div>
           </div>

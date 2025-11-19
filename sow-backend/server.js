@@ -8,6 +8,7 @@ import loginRouter from "./api/login.js";
 import translationRouter from "./api/translation.js";
 import createProductsTable from "./models/productsModels.js";
 import productRouter from "./api/products.js";
+import userRouter from "./api/user.js";
 
 // Initializing the app
 const app = express();
@@ -28,6 +29,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/login", loginRouter);
 app.use("/api/translation", translationRouter);
 app.use("/api/products", productRouter);
+app.use("/api/users", userRouter);
+
 
 
 // Sample route

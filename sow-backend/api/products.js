@@ -48,33 +48,11 @@ productRouter.get("/getAll", auth, async (req, res) => {
     const userId = req.userId;
 
     const products = await pool.query(
-      "SELECT id, article_no, name, in_price, price, unit, in_stock, description from products WHERE user_id = $1 ORDER BY id DESC",
+      "SELECT id, article_no, name, in_price, price, unit, in_stock, description from products WHERE user_id = $1 ORDER BY id ASC",
       [userId]
     );
 
     res.json({ success: true, message: products.rows });
-  } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: error.message });
-  }
-});
-
-// Fetch single product
-productRouter.get("/get/:id", auth, async (req, res) => {
-  try {
-    const userId = req.userId;
-    const { id } = req.params;
-
-    const result = await pool.query(
-      "SELECT * FROM products WHERE id = $1 AND user_id = $2",
-      [id, userId]
-    );
-
-    if (result.rows.length === 0) {
-      return res.json({ success: false, message: "Product not found" });
-    }
-
-    res.json({ success: true, message: result.rows[0] });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });

@@ -1,13 +1,68 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./PriceList.jsx.css";
 import AddProductModal from "../../components/Modals/AddProductModal";
-import EditProductDropdown from "../../components/Modals/EditProductDropdown";
+import { AppContext } from "../../Context/AppContext";
+import axios from "axios";
 
 const PriceList = () => {
-  const [searchArticleNo, setSearchArticleNo] = useState("");
-  const [searchProducts, setSearchProducts] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editDropdown, setEditDropdown] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const { backendURL, auth, products, getProducts } = useContext(AppContext);
+
+  useEffect(() => {
+    if (auth) {
+      getProducts();
+    }
+  }, [auth]);
+
+  const updateProduct = async (id, field, value) => {
+    try {
+      const productData = { ...products.find((p) => p.id === id) };
+
+      productData[field] = value;
+
+      const {data} = await axios.put(`${backendURL}/api/products/update/${id}`, productData, {
+        headers: {
+          Authorization: `Bearer ${auth}`,
+        },
+      });
+
+      if (!data.success) {
+        setErrors((prev) => ({
+          ...prev,
+          [`${id}_${field}`]: data.message,
+        }));
+      } else {
+        setErrors((prev) => {
+          const copy = { ...prev };
+          delete copy[`${id}_${field}`];
+          return copy;
+        });
+      }
+
+      getProducts();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const deleteProduct = async (id) => {
+    try {
+      const {data} = await axios.delete (`${backendURL}/api/products/delete/${id}`,{headers: { Authorization: `Bearer ${auth}`}} )
+
+      if (data.success) {
+        console.log(data.message)
+        getProducts()
+      } else {
+        console.log(data.message)
+      }
+      
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
 
   return (
     <div className="filter-table-wrapper">
@@ -19,8 +74,6 @@ const PriceList = () => {
               id="article-no"
               name="article-no"
               placeholder="Search Article No..."
-              value={searchArticleNo}
-              onChange={(e) => setSearchArticleNo(e.target.value)}
             />
             <i className="fa fa-search search-icon"></i>
           </div>
@@ -30,8 +83,6 @@ const PriceList = () => {
               id="products"
               name="products"
               placeholder="Search Product..."
-              value={searchProducts}
-              onChange={(e) => setSearchProducts(e.target.value)}
             />
             <i className="fa fa-search search-icon"></i>
           </div>
@@ -76,56 +127,149 @@ const PriceList = () => {
           </thead>
 
           <tbody>
-            <tr className="table-data">
-              <td>
-                <input type="number" name="article" value={"1234567890"} />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  name="product"
-                  value={"This is a test product with fifty characters"}
-                />
-              </td>
-              <td>
-                <input type="number" name="in-price" value={"90000"} />
-              </td>
-              <td>
-                <input type="number" name="price" value={"150000"} />
-              </td>
-              <td>
-                <input type="text" name="unit" value={"kilometres/hour"} />
-              </td>
-              <td>
-                <input type="number" name="in-stock" value={"2541033"} />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  name="description"
-                  value={"This is the description with fifty characters"}
-                />
-              </td>
-              <td className="action-btn-wrapper">
-                <button
-                  className="action-btn"
-                  onClick={() => setEditDropdown(!editDropdown)}
-                >
-                  <i className="fa fa-ellipsis-h" aria-hidden="true" />
-                </button>
-              </td>
-            </tr>
+            {products &&
+              products.length > 0 &&
+              products.map((product) => (
+                <tr className="table-data" key={product.id}>
+                  <td>
+                    <input
+                      type="number"
+                      defaultValue={product.article_no}
+                      onChange={(e) => (product.article_no = e.target.value)}
+                      onBlur={(e) =>
+                        updateProduct(product.id, "article_no", e.target.value)
+                      }
+                    />
+                    {errors[`${product.id}_article_no`] && (
+                      <div className="field-error">
+                        {errors[`${product.id}_article_no`]}
+                      </div>
+                    )}
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={product.name}
+                      style={{ textAlign: "left" }}
+                      onChange={(e) => (product.name = e.target.value)}
+                      onBlur={(e) =>
+                        updateProduct(product.id, "name", e.target.value)
+                      }
+                    />
+                    {errors[`${product.id}_name`] && (
+                      <div className="field-error">
+                        {errors[`${product.id}_name`]}
+                      </div>
+                    )}
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      defaultValue={product.in_price}
+                      onChange={(e) => (product.in_price = e.target.value)}
+                      onBlur={(e) =>
+                        updateProduct(product.id, "in_price", e.target.value)
+                      }
+                    />
+                    {errors[`${product.id}_in_price`] && (
+                      <div className="field-error">
+                        {errors[`${product.id}_in_price`]}
+                      </div>
+                    )}
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      defaultValue={product.price}
+                      onChange={(e) => (product.price = e.target.value)}
+                      onBlur={(e) => {
+                        updateProduct(product.id, "price", e.target.value);
+                      }}
+                    />
+                    {errors[`${product.id}_price`] && (
+                      <div className="field-error">
+                        {errors[`${product.id}_price`]}
+                      </div>
+                    )}
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={product.unit}
+                      onChange={(e) => (product.unit = e.target.value)}
+                      onBlur={(e) =>
+                        updateProduct(product.id, "unit", e.target.value)
+                      }
+                    />
+                    {errors[`${product.id}_unit`] && (
+                      <div className="field-error">
+                        {errors[`${product.id}_unit`]}
+                      </div>
+                    )}
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      defaultValue={product.in_stock}
+                      onChange={(e) => (product.in_stock = e.target.value)}
+                      onBlur={(e) =>
+                        updateProduct(product.id, "in_stock", e.target.value)
+                      }
+                    />
+                    {errors[`${product.id}_in_stock`] && (
+                      <div className="field-error">
+                        {errors[`${product.id}_in_stock`]}
+                      </div>
+                    )}
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={product.description}
+                      style={{ textAlign: "left" }}
+                      onChange={(e) => (product.description = e.target.value)}
+                      onBlur={(e) =>
+                        updateProduct(product.id, "description", e.target.value)
+                      }
+                    />
+                    {errors[`${product.id}_description`] && (
+                      <div className="field-error">
+                        {errors[`${product.id}_description`]}
+                      </div>
+                    )}
+                  </td>
+                  <td className="action-btn-wrapper">
+                    <div className="action-dropdown-container">
+                      <button
+                        className="action-btn"
+                        onClick={() =>
+                          setEditDropdown(
+                            editDropdown === product.id ? null : product.id
+                          )
+                        }
+                      >
+                        <i className="fa fa-ellipsis-h" aria-hidden="true" />
+                      </button>
+
+                      {editDropdown === product.id && (
+                        <div className="edit-dropdown-wrapper">
+                          <ul className="edit-dropdown">
+                            <li
+                              style={{ color: "red" }}
+                              className="edit-dropdown-item"
+                              onClick={() => deleteProduct(product.id)}
+                            >
+                              Delete
+                            </li>
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
-        {editDropdown && (
-          <div className="edit-dropdown-wrapper">
-            <ul className="edit-dropdown">
-              <li style={{ color: "red" }} className="edit-dropdown-item">
-                Delete
-              </li>
-            </ul>
-          </div>
-        )}
       </div>
     </div>
   );

@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./AddProductModal.jsx.css";
+import axios from "axios";
+import { AppContext } from "../../Context/AppContext";
 
 const AddProductModal = ({ setIsModalOpen }) => {
   const [articleNo, setArticleNo] = useState("");
@@ -10,6 +12,49 @@ const AddProductModal = ({ setIsModalOpen }) => {
   const [inStock, setInStock] = useState("");
   const [description, setDescription] = useState("");
 
+  const { backendURL, auth, getProducts } = useContext(AppContext);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const fields = {
+        article_no: articleNo,
+        name: productName,
+        in_price: Number(inPrice),
+        price: Number(price),
+        unit: unit,
+        in_stock: inStock ? Number(inStock) : 0,
+        description: description || "",
+      };
+
+      const { data } = await axios.post(
+        `${backendURL}/api/products/add`,
+        fields,
+        { headers: { Authorization: `Bearer ${auth}` } }
+      );
+
+      if (data.success) {
+        console.log("Products added successfully");
+        setArticleNo("");
+        setProductName("");
+        setInPrice("");
+        setPrice("");
+        setUnit("");
+        setInStock("");
+        setDescription("");
+        setIsModalOpen(false);
+        getProducts()
+      } else {
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+ 
+
   return (
     <div className="modal-overlay">
       <div className="modal">
@@ -17,7 +62,7 @@ const AddProductModal = ({ setIsModalOpen }) => {
           ✕
         </button>
         <h2>Add Product</h2>
-        <form action="" className="add-product-form-wrapper">
+        <form onSubmit={handleSubmit} className="add-product-form-wrapper">
           <div className="add-product-form">
             <label htmlFor="articleNo">Article No.</label>
             <input
