@@ -8,6 +8,7 @@ import { AppContext } from "./Context/AppContext.jsx";
 import GuestNavbar from "./components/Navbar/GuestNavbar.jsx";
 import AuthNavbar from "./components/Navbar/AuthNavbar.jsx";
 import AuthSidebar from "./components/Navbar/AuthSidebar.jsx";
+import background from "./assets/background.webp";
 
 function App() {
   const { auth } = useContext(AppContext);
@@ -16,7 +17,10 @@ function App() {
       <AuthNavbar />
       <div style={{ display: "flex" }}>
         <AuthSidebar />
-        <div className="auth-content" style={{ padding: "20px 35px 20px 35px", backgroundColor: "white" }}>
+        <div
+          className="auth-content"
+          style={{ padding: "20px 35px 20px 35px", backgroundColor: "white" }}
+        >
           <Routes>
             <Route path="/price-list" element={<PriceList />} />
           </Routes>
@@ -25,6 +29,9 @@ function App() {
     </>
   ) : (
     <>
+      <div className="site-bg" aria-hidden="true">
+        <img src={background} alt="background image" className="bg-img" />
+      </div>
       <GuestNavbar />
       <div>
         <Routes>

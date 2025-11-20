@@ -3,3 +3,17 @@
   min-height: calc(100vh - 92px);
   box-sizing: border-box;
 }
+
+.site-bg {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: -100;
+}
+
+.bg-img {
+  width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
