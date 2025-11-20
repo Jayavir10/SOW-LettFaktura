@@ -66,7 +66,7 @@ const AddProductModal = ({ setIsModalOpen }) => {
           <div className="add-product-form">
             <label htmlFor="articleNo">Article No.</label>
             <input
-              type="articleNo"
+              type="number"
               id="articleNo"
               name="articleNo"
               placeholder="Enter Article No..."
@@ -78,7 +78,7 @@ const AddProductModal = ({ setIsModalOpen }) => {
           <div className="add-product-form">
             <label htmlFor="productName">Product Name</label>
             <input
-              type="productName"
+              type="text"
               id="productName"
               name="productName"
               placeholder="Enter Product Name..."
@@ -96,6 +96,7 @@ const AddProductModal = ({ setIsModalOpen }) => {
               placeholder="Enter In Price..."
               value={inPrice}
               onChange={(e) => setInPrice(e.target.value)}
+              required
             />
           </div>
 
@@ -108,6 +109,7 @@ const AddProductModal = ({ setIsModalOpen }) => {
               placeholder="Enter Price..."
               value={price}
               onChange={(e) => setPrice(e.target.value)}
+              required
             />
           </div>
 
@@ -120,6 +122,7 @@ const AddProductModal = ({ setIsModalOpen }) => {
               placeholder="Enter Unit (e.g. pcs, kg)..."
               value={unit}
               onChange={(e) => setUnit(e.target.value)}
+              required
             />
           </div>
 

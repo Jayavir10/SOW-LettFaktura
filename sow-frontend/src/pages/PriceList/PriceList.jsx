@@ -134,6 +134,7 @@ const PriceList = () => {
                   <td>
                     <input
                       type="number"
+                      min="0"
                       defaultValue={product.article_no}
                       onChange={(e) => (product.article_no = e.target.value)}
                       onBlur={(e) =>
@@ -165,6 +166,7 @@ const PriceList = () => {
                   <td>
                     <input
                       type="number"
+                      min="0"
                       defaultValue={product.in_price}
                       onChange={(e) => (product.in_price = e.target.value)}
                       onBlur={(e) =>
@@ -180,6 +182,7 @@ const PriceList = () => {
                   <td>
                     <input
                       type="number"
+                      min="0"
                       defaultValue={product.price}
                       onChange={(e) => (product.price = e.target.value)}
                       onBlur={(e) => {
@@ -210,6 +213,7 @@ const PriceList = () => {
                   <td>
                     <input
                       type="number"
+                      min="0"
                       defaultValue={product.in_stock}
                       onChange={(e) => (product.in_stock = e.target.value)}
                       onBlur={(e) =>

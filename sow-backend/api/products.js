@@ -8,8 +8,15 @@ const productRouter = express.Router();
 productRouter.post("/add", auth, async (req, res) => {
   try {
     const userId = req.userId;
-    const { article_no, name, in_price, price, unit, in_stock = 0, description } =
-      req.body;
+    const {
+      article_no,
+      name,
+      in_price,
+      price,
+      unit,
+      in_stock = 0,
+      description,
+    } = req.body;
 
     if (!article_no || !name || !in_price || !price || !unit) {
       return res.json({
@@ -18,16 +25,24 @@ productRouter.post("/add", auth, async (req, res) => {
       });
     }
 
+    const numInPrice = Number(in_price);
+    const numPrice = Number(price);
+    const numInStock = Number(in_stock);
+
+    if (numInPrice < 0 || numPrice < 0 || numInStock < 0) {
+      return res.json({ success: false, message: "Value cannot be negative" });
+    }
+
     const insertQuery = `INSERT INTO products (article_no, name, in_price, price, unit, in_stock, description, user_id) 
                          VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`;
 
     await pool.query(insertQuery, [
       article_no,
       name,
-      in_price,
-      price,
+      numInPrice,
+      numPrice,
       unit,
-      in_stock,
+      numInStock,
       description,
       userId,
     ]);
@@ -81,6 +96,14 @@ productRouter.put("/update/:id", auth, async (req, res) => {
       });
     }
 
+    const numInPrice = Number(in_price);
+    const numPrice = Number(price);
+    const numInStock = Number(in_stock);
+
+    if (numInPrice < 0 || numPrice < 0 || numInStock < 0) {
+      return res.json({ success: false, message: "Value cannot be negative" });
+    }
+
     // check owner
     const ownerCheck = await pool.query(
       "SELECT user_id FROM products WHERE id = $1",
@@ -111,10 +134,10 @@ productRouter.put("/update/:id", auth, async (req, res) => {
     const result = await pool.query(updateQuery, [
       article_no,
       name,
-      in_price,
-      price,
+      numInPrice,
+      numPrice,
       unit,
-      in_stock,
+      numInStock,
       description,
       id,
     ]);
