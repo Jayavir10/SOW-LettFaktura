@@ -1,16 +1,15 @@
 .login-footer-wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    min-height: calc(100vh - 96px);
 }
 
 .login-wrapper {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    padding-top: 45px;
-    padding-bottom: 20px;
 }
 
 .login-box {

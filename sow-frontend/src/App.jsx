@@ -16,22 +16,22 @@ function App() {
       <AuthNavbar />
       <div style={{ display: "flex" }}>
         <AuthSidebar />
-        <main style={{ padding: "20px 35px 20px 35px", backgroundColor: "white" }}>
+        <div className="auth-content" style={{ padding: "20px 35px 20px 35px", backgroundColor: "white" }}>
           <Routes>
             <Route path="/price-list" element={<PriceList />} />
           </Routes>
-        </main>
+        </div>
       </div>
     </>
   ) : (
     <>
       <GuestNavbar />
-      <main>
+      <div>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/terms" element={<Terms />} />
         </Routes>
-      </main>
+      </div>
     </>
   );
 }
